@@ -4,7 +4,8 @@ pipeline{
         stage('Build Docker Image') {
             // steps {
             //     sh "echo staring build the image"
-                image = docker build -t viraj5132/gitops .
+                // image =  docker build -t viraj5132/gitops .
+                image = docker.build("viraj5132/gitops")
             // }
         }
         stage('Deploy Docker Image') {
