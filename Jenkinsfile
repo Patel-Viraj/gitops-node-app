@@ -15,8 +15,10 @@ pipeline{
             }
         }
         stage('Trigger ManifestUpdate') {
-            echo "triggering updatemanifestjob"
-            build job: 'updatemanifest'
+             steps {
+                sh " echo triggering updatemanifestjob"
+                sh "build job: 'updatemanifest'"
+             }
          }   
     }
 }
