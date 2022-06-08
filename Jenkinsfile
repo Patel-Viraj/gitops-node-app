@@ -2,16 +2,19 @@ pipeline{
     agent any
     stages {
         stage('Build Docker Image') {
-            steps {
-                sh "echo staring build the image"
-                sh 'docker build -t viraj5132/gitops:${env.BUILD_NUMBER} .'
-            }
+            // steps {
+            //     sh "echo staring build the image"
+                image = docker build -t viraj5132/gitops .
+            // }
         }
         stage('Deploy Docker Image') {
             steps {
                 sh "echo staring deploy the image"
-                sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                sh 'docker push viraj5132/gitops:${env.BUILD_NUMBER}'
+                  docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                  image.push("${env.BUILD_NUMBER}")
+        }
+                // sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                // sh 'docker push viraj5132/gitops:${BUILD_NUMBER}'
             }
         }
         stage('Trigger ManifestUpdate') {
